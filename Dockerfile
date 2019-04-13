@@ -46,7 +46,6 @@ FROM alpine:3.9
 LABEL maintainer="metowolf <i@i-meto.com>"
 
 COPY --from=builder /usr/local/ /usr/local/
-COPY docker-entrypoint.sh /usr/local/bin/
 
 RUN set -x \
   && runDeps="$( \
@@ -59,5 +58,7 @@ RUN set -x \
 
 STOPSIGNAL SIGUSR1
 
-CMD ["haproxy", "-f", "/usr/local/etc/haproxy/haproxy.cfg"]
+COPY docker-entrypoint.sh /usr/local/bin/
 ENTRYPOINT ["docker-entrypoint.sh"]
+
+CMD ["haproxy", "-f", "/usr/local/etc/haproxy/haproxy.cfg"]
